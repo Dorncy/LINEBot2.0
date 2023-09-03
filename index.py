@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, make_response, jsonify
-import assess_msg
+from assess_msg import assess
 
 # 載入 json 標準函式庫，處理回傳的資料格式
 import json
@@ -38,8 +38,8 @@ def linebot():
 
             # 取得 LINE 收到的文字訊息
             msg = json_data['events'][0]['message']['text']
-            print(msg)                                           # 印出內容
-            reply = assess_msg(msg)
+            # print(msg)                                           # 印出內容
+            reply = assess(msg)
         else:
             reply = '你傳的不是文字呦～'
         # print(reply)

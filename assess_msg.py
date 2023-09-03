@@ -3,7 +3,7 @@ from weather import get_weather_data, search_county
 from get_help import get_help
 
 
-def assess_msg(usertext):
+def assess(usertext):
 
     weather = re.compile('天氣')
     need_help = re.compile('help')
