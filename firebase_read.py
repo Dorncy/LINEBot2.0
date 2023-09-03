@@ -4,6 +4,7 @@ from firebase_admin import credentials, firestore
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
+
 def get_all_view(area):
     db = firestore.client()
 
@@ -21,10 +22,10 @@ def get_all_view(area):
 
 # def get_view_introducion(area, view):
 #     db = firestore.client()
-    
+
 #     collection_ref = db.collection(area)
 #     docs = collection_ref.get()
-    
+
 #     introduction = ""
 #     for doc in docs:
 #         result = doc.to_dict()
@@ -34,18 +35,19 @@ def get_all_view(area):
 #             introduction += "地址：" + result.get("address") + "\n"
 #             introduction += "開放時間：" + result.get("time") + "\n"
 #             introduction += "票價：" + result.get("ticket") + "\n"
-    
+
 #     # print(introduction)
 #     return introduction
 
 # # get_view_introducion("台中", "高美濕地")
 
+
 def get_view_introducion(view):
     db = firestore.client()
-    
+
     collection_names = [
-       "台中", "苗栗", "彰化", "南投", "雲林", "台北", "新北", "基隆",
-       "桃園", "新竹", "宜蘭", "高雄", "台南", "嘉義", "屏東", "花蓮", "台東"]
+        "台中", "苗栗", "彰化", "南投", "雲林", "台北", "新北", "基隆",
+        "桃園", "新竹", "宜蘭", "高雄", "台南", "嘉義", "屏東", "花蓮", "台東"]
     info = ""
     for collection_name in collection_names:
         collection_ref = db.collection(collection_name)
@@ -60,5 +62,6 @@ def get_view_introducion(view):
             # info += "票價：" + result.get("ticket")
     print(info)
     return info
-    
-get_view_introducion("高美濕地")
+
+
+# get_view_introducion("高美濕地")
