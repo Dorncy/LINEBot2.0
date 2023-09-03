@@ -3,7 +3,7 @@ import os
 
 a_side = "sk-lzgi3gzKfyYD6giZVCuMT3Blb"
 b_side = "kFJYmxI29t3g669SYateckI"
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = a_side + b_side
 
 
 def reply(msg):
