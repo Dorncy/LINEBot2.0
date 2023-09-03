@@ -1,5 +1,5 @@
-from flask import Flask, request
-from assess_msg import assess_msg
+from flask import Flask, render_template, request, make_response, jsonify
+import assess_msg
 
 # 載入 json 標準函式庫，處理回傳的資料格式
 import json
@@ -13,7 +13,7 @@ from settings import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
 app = Flask(__name__)
 
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=["POST"])
 def linebot():
     usertext = request.get_data(as_text=True)                    # 取得收到的訊息內容
     try:

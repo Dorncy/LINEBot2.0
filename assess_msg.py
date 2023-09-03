@@ -17,4 +17,4 @@ def assess_msg(usertext):
         return usertext
 
 
-print(assess_msg(input()))
+# print(assess_msg(input()))
