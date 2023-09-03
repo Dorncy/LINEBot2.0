@@ -3,6 +3,7 @@ from weather import get_weather_data
 from get_help import get_help
 from search_coutny import search_county
 from firebase_read import get_all_view
+from chatGPT import reply
 
 
 def assess(usertext):
@@ -24,7 +25,7 @@ def assess(usertext):
     elif re.search(travel, usertext):
         return get_all_view(search_county(usertext))
     else:
-        return usertext
+        return reply(usertext)
 
 
-# print(assess(input()))
+print(assess(input()))
