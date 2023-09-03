@@ -1,7 +1,7 @@
 import re
 from weather import get_weather_data, search_county
 from get_help import get_help
-from chatGPT import chat_reply
+
 
 def assess_msg(usertext):
 
@@ -14,6 +14,7 @@ def assess_msg(usertext):
     elif re.search(need_help, usertext):
         return get_help()
     else:
-        return chat_reply(usertext)
+        return usertext
+
 
 print(assess_msg(input()))
