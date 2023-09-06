@@ -9,11 +9,11 @@ openai.api_key = a_side + b_side
 def reply(msg):
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        max_tokens=200,
-        temperature=0.7,
+        model="gpt-3.5-turbo-16k",
+        max_tokens=350,
+        temperature=0.5,
         messages=[
-            {"role": "assistant", "content": "我會盡量以繁體中文和口頭聊天的方式回覆"},
+            {"role": "assistant", "content": "將以150字上下來回復所有訊息。"},
             {"role": "user", "content":  msg}
         ]
     )
@@ -27,4 +27,4 @@ def reply(msg):
     return remsg
 
 
-# print(reply("台灣哪裡有熱氣球可以搭"))
+# print(reply("介紹台中的草悟道"))
