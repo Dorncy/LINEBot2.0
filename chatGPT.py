@@ -10,7 +10,7 @@ def reply(msg):
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        max_tokens=700,
+        max_tokens=500,
         temperature=0.3,
         messages=[
             {"role": "assistant", "content": "我會盡量以繁體中文和口頭聊天的方式回覆"},
