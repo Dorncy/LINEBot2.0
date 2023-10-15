@@ -10,7 +10,6 @@ def reply(msg):
 
     messages = []
     while True:
-        msg = input('me > ')
         messages.append({"role": "user", "content": msg})   # 添加 user 回應
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
