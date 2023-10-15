@@ -18,9 +18,6 @@ def reply(msg):
             messages=messages
         )
         ai_msg = response.choices[0].message.content.replace('\n', '')
-        # 添加 ChatGPT 回應
-        messages.append({"role": "assistant", "content": ai_msg})
-        print(f'ai > {ai_msg}')
         return ai_msg
 
 
