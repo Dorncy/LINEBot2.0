@@ -61,9 +61,9 @@ def random_view_introduction(area):
         result = doc.to_dict()
         place += result.get('view')
 
-    # get_view_introducion(place)
+    info = get_view_introducion(place)
 
-    return reply_stablemsg(get_view_introducion(place))
+    return reply_stablemsg(info)
 
 
 # print(random_view_introduction('台中'))
