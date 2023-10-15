@@ -27,7 +27,7 @@ def reply_stablemsg(msg):
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        max_tokens=128,
+        max_tokens=64,
         temperature=0.5,
         messages=[
             {"role": "user", "content": "推荐個景點"},
