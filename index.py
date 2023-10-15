@@ -52,15 +52,21 @@
 
 # if __name__ == "__main__":
 #     app.run()
-import openai
 
+from firebase import firebase
 from flask import Flask, request
-
-# 載入 LINE Message API 相關函式庫
 from linebot import LineBotApi, WebhookHandler
-from linebot.models import TextSendMessage   # 載入 TextSendMessage 模組
+from linebot.models import TextSendMessage, ImageSendMessage
 from settings import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
 import json
+import requests
+
+import openai
+openai.api_key = '你的 OpenAI API KEY'         # 你的 OpenAI API KEY
+
+# 你的 Firebase Realtime database URL
+url = 'https://chatgpt-data-52e1e-default-rtdb.firebaseio.com/'
+fdb = firebase.FirebaseApplication(url, None)  # 初始化 Firebase Realtime database
 
 app = Flask(__name__)
 
@@ -71,33 +77,48 @@ def linebot():
     json_data = json.loads(body)
     print(json_data)
     try:
-        line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
-        handler = WebhookHandler(LINE_CHANNEL_SECRET)
+        token = LINE_CHANNEL_ACCESS_TOKEN      # 你的 Access Token
+        secret = LINE_CHANNEL_SECRET           # 你的 Channel Secret
+        line_bot_api = LineBotApi(token)
+        handler = WebhookHandler(secret)
         signature = request.headers['X-Line-Signature']
         handler.handle(body, signature)
-        tk = json_data['events'][0]['replyToken']
-        msg = json_data['events'][0]['message']['text']
-        # 取出文字的前五個字元，轉換成小寫
-        ai_msg = msg[:6].lower()
-        reply_msg = ''
-        # 取出文字的前五個字元是 hi ai:
-        if ai_msg == 'hi ai:':
-            a_side = "sk-lzgi3gzKfyYD6giZVCuMT3Blb"
-            b_side = "kFJYmxI29t3g669SYateckI"
-            openai.api_key = a_side + b_side
-            # 將第六個字元之後的訊息發送給 OpenAI
-            response = openai.Completion.create(
-                model='text-davinci-003',
-                prompt=msg[6:],
-                max_tokens=256,
-                temperature=0.5,
-            )
-            # 接收到回覆訊息後，移除換行符號
-            reply_msg = response["choices"][0]["text"].replace('\n', '')
+        tk = json_data['events'][0]['replyToken']            # 回覆的 reply token
+        timestamp = json_data['events'][0]['timestamp']      # 訊息時間戳
+        msg_type = json_data['events'][0]['message']['type']  # 訊息類型
+        # 如果是文字訊息
+        if msg_type == 'text':
+            msg = json_data['events'][0]['message']['text']  # 取出文字內容
+            # 讀取 Firebase 資料庫內容
+            chatgpt = fdb.get('/', 'chatgpt')
+
+            if chatgpt == None:
+                messages = []       # 如果資料庫裡沒有內容，建立空串列
+            else:
+                messages = chatgpt  # 如果資料庫裡有內容，設定歷史紀錄為資料庫內容
+
+            if msg == '!reset':
+                fdb.delete('/', 'chatgpt')    # 如果收到 !reset 的訊息，表示清空資料庫內容
+                reply_msg = TextSendMessage(text='對話歷史紀錄已經清空！')
+            else:
+                # 如果是一般文字訊息，將訊息添加到歷史紀錄裡
+                messages.append({"role": "user", "content": msg})
+                response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    max_tokens=128,
+                    temperature=0.5,
+                    messages=messages
+                )
+                ai_msg = response.choices[0].message.content.replace(
+                    '\n', '')  # 移除回應裡的換行符
+                # 歷史紀錄裡添加回應訊息
+                messages.append({"role": "assistant", "content": ai_msg})
+                fdb.put_async('/', 'chatgpt', messages)        # 使用非同步的方式紀錄訊息
+                reply_msg = TextSendMessage(text=ai_msg)     # 回應訊息
+            line_bot_api.reply_message(tk, reply_msg)
         else:
-            reply_msg = msg
-        text_message = TextSendMessage(text=reply_msg)
-        line_bot_api.reply_message(tk, text_message)
+            reply_msg = TextSendMessage(text='你傳的不是文字訊息呦')
+            line_bot_api.reply_message(tk, reply_msg)
     except:
         print('error')
     return 'OK'
