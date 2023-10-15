@@ -32,7 +32,7 @@ def reply_stablemsg(msg):
         messages=[
             {"role": "user", "content": "推荐個景點"},
             {"role": "assistant", "content": msg},
-            {"role": "user", "content": "簡短的介紹這個景點"}
+            {"role": "user", "content": "簡短的用一句話介紹這個景點"}
         ]
     )
     remsg = response.choices[0].message.content
