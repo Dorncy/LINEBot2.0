@@ -52,66 +52,56 @@
 
 # if __name__ == "__main__":
 #     app.run()
-from settings import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
-from firebase import firebase
+import openai
+
+from flask import Flask, request
+
+# 載入 LINE Message API 相關函式庫
 from linebot import LineBotApi, WebhookHandler
-from linebot.models import TextSendMessage, StickerSendMessage, ImageSendMessage, LocationSendMessage
-import requests
+from linebot.models import TextSendMessage   # 載入 TextSendMessage 模組
+from settings import LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET
 import json
 
-import openai
-a_side = "sk-lzgi3gzKfyYD6giZVCuMT3Blb"
-b_side = "kFJYmxI29t3g669SYateckI"
-openai.api_key = a_side + b_side
+app = Flask(__name__)
 
 
-token = LINE_CHANNEL_ACCESS_TOKEN
-secret = LINE_CHANNEL_SECRET
-
-
-def linebot(request):
+@app.route("/", methods=['POST'])
+def linebot():
     body = request.get_data(as_text=True)
     json_data = json.loads(body)
+    print(json_data)
     try:
-        line_bot_api = LineBotApi(token)
-        handler = WebhookHandler(secret)
+        line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+        handler = WebhookHandler(LINE_CHANNEL_SECRET)
         signature = request.headers['X-Line-Signature']
         handler.handle(body, signature)
         tk = json_data['events'][0]['replyToken']
-        timestamp = json_data['events'][0]['timestamp']
-        msg_type = json_data['events'][0]['message']['type']
-        if msg_type == 'text':
-            msg = json_data['events'][0]['message']['text']
-            url = 'https://chatgpt-data-52e1e-default-rtdb.firebaseio.com/'
-            fdb = firebase.FirebaseApplication(url, None)
-            chatgpt = fdb.get('/', 'chatgpt')
-
-            if chatgpt == None:
-                messages = []
-            else:
-                messages = chatgpt
-
-            if msg == '!reset':
-                reply_msg = TextSendMessage(text='對話歷史紀錄已經清空！')
-                line_bot_api.reply_message(tk, reply_msg)
-                fdb.delete('/', 'chatgpt')
-            else:
-                messages.append({"role": "user", "content": msg})
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    max_tokens=128,
-                    temperature=0.5,
-                    messages=messages
-                )
-                ai_msg = response.choices[0].message.content.replace('\n', '')
-                messages.append({"role": "assistant", "content": ai_msg})
-                reply_msg = TextSendMessage(text=ai_msg)
-                line_bot_api.reply_message(tk, reply_msg)
-                fdb.put_async('/', 'chatgpt', messages)
+        msg = json_data['events'][0]['message']['text']
+        # 取出文字的前五個字元，轉換成小寫
+        ai_msg = msg[:6].lower()
+        reply_msg = ''
+        # 取出文字的前五個字元是 hi ai:
+        if ai_msg == 'hi ai:':
+            a_side = "sk-lzgi3gzKfyYD6giZVCuMT3Blb"
+            b_side = "kFJYmxI29t3g669SYateckI"
+            openai.api_key = a_side + b_side
+            # 將第六個字元之後的訊息發送給 OpenAI
+            response = openai.Completion.create(
+                model='text-davinci-003',
+                prompt=msg[6:],
+                max_tokens=256,
+                temperature=0.5,
+            )
+            # 接收到回覆訊息後，移除換行符號
+            reply_msg = response["choices"][0]["text"].replace('\n', '')
         else:
-            reply_msg = TextSendMessage(text='你傳的不是文字訊息呦')
-            line_bot_api.reply_message(tk, reply_msg)
-    except Exception as e:
-        detail = e.args[0]
-        print(detail)
+            reply_msg = msg
+        text_message = TextSendMessage(text=reply_msg)
+        line_bot_api.reply_message(tk, text_message)
+    except:
+        print('error')
     return 'OK'
+
+
+if __name__ == "__main__":
+    app.run()
