@@ -22,3 +22,21 @@ def reply(msg):
 
 
 # print(reply("講個笑話"))
+
+def reply_stablemsg(msg):
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        max_tokens=64,
+        temperature=0.5,
+        messages=[
+
+            {"role": "assistant", "content": "我會幫你把這些景點資訊簡潔整理，並且以口語化的方式回覆給你。"},
+            {"role": "user", "content":  msg}
+        ]
+    )
+    remsg = response.choices[0].message.content
+
+    # print(remsg)
+
+    return remsg

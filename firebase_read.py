@@ -6,18 +6,18 @@ cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 
-def get_all_view(area):
-    db = firestore.client()
+# def get_all_view(area):
+#     db = firestore.client()
 
-    collection_ref = db.collection(area)
-    docs = collection_ref.get()
+#     collection_ref = db.collection(area)
+#     docs = collection_ref.get()
 
-    info = "以下是"+area+"的著名景點:\n\n"
-    for doc in docs:
-        result = doc.to_dict()
-        info += result.get("view") + "\n"
-    info += "\n" + "想了解哪個景點?"
-    return len(docs)
+#     info = "以下是"+area+"的著名景點:\n\n"
+#     for doc in docs:
+#         result = doc.to_dict()
+#         info += result.get("view") + "\n"
+#     info += "\n" + "想了解哪個景點?"
+#     return len(docs)
 
 
 def get_view_introducion(view):
