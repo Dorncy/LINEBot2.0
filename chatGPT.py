@@ -22,6 +22,7 @@ def reply(msg):
         # 添加 ChatGPT 回應
         messages.append({"role": "assistant", "content": ai_msg})
         print(f'ai > {ai_msg}')
+        return ai_msg
 
 
 # print(reply("講個笑話"))
