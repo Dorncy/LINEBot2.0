@@ -13,7 +13,7 @@ def reply(msg):
         messages.append({"role": "user", "content": msg})   # 添加 user 回應
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            max_tokens=75,
+            max_tokens=64,
             temperature=0.5,
             messages=messages
         )
