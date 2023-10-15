@@ -1,5 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
+import random
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
@@ -16,30 +17,7 @@ def get_all_view(area):
         result = doc.to_dict()
         info += result.get("view") + "\n"
     info += "\n" + "想了解哪個景點?"
-    return info
-
-# print(get_all_view("台中"))
-
-# def get_view_introducion(area, view):
-#     db = firestore.client()
-
-#     collection_ref = db.collection(area)
-#     docs = collection_ref.get()
-
-#     introduction = ""
-#     for doc in docs:
-#         result = doc.to_dict()
-#         if view in result.get("view"):
-#             introduction += "景點：" + result.get("view")+ "\n"
-#             introduction += "景點介紹：" + result.get("introduction")+ "\n"
-#             introduction += "地址：" + result.get("address") + "\n"
-#             introduction += "開放時間：" + result.get("time") + "\n"
-#             introduction += "票價：" + result.get("ticket") + "\n"
-
-#     # print(introduction)
-#     return introduction
-
-# # get_view_introducion("台中", "高美濕地")
+    return len(docs)
 
 
 def get_view_introducion(view):
@@ -55,13 +33,34 @@ def get_view_introducion(view):
         results = docs.get()
         for doc in results:
             result = doc.to_dict()
-            info += "景點：" + result.get("view") + "\n\n"
-            info += "景點介紹：" + result.get("introduction") + "\n\n"
+            info += "景點：" + result.get("view") + "\n"
+            info += "景點介紹：" + result.get("introduction") + "\n"
             info += "地址：" + result.get("address")
             # info += "開放時間：" + result.get("time") + "\n\n"
             # info += "票價：" + result.get("ticket")
-    print(info)
+    # print(info)
     return info
 
 
 # get_view_introducion("高美濕地")
+
+def random_view_introduction(area):
+    db = firestore.client()
+
+    collection_ref = db.collection(area)
+    docs = collection_ref.get()
+
+    place_id = []
+
+    num = random.randint(0, len(docs)-1)
+    place_id.append(docs[num])
+
+    place = ''
+    for doc in place_id:
+        result = doc.to_dict()
+        place += result.get('view')
+
+    return get_view_introducion(place)
+
+
+# print(random_view_introduction('台中'))

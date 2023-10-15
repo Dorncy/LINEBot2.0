@@ -12,8 +12,10 @@ def assess(usertext):
     weather = re.compile('天氣')
     # 幫助
     need_help = re.compile('help')
-    # 旅遊
+    # 旅遊, 介紹景點
     travel_keyword = ["旅遊", "景點"]
+    # introduction_keyword = ['想了解', '介紹']
+
     for keywords in travel_keyword:
         travel = re.compile(keywords)
 

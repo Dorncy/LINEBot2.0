@@ -8,23 +8,20 @@ openai.api_key = a_side + b_side
 
 def reply(msg):
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        max_tokens=350,
-        temperature=0.5,
-        messages=[
-            {"role": "assistant", "content": "將以150字上下來回復所有訊息。"},
-            {"role": "user", "content":  msg}
-        ]
-    )
-    remsg = response.choices[0].message.content
-
-    # if '。' or '.' in remsg:
-    #     remsg = remsg.split('。')[0]
-
-    # print(remsg)
-
-    return remsg
+    messages = []
+    while True:
+        msg = input('me > ')
+        messages.append({"role": "user", "content": msg})   # 添加 user 回應
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            max_tokens=50,
+            temperature=0.5,
+            messages=messages
+        )
+        ai_msg = response.choices[0].message.content.replace('\n', '')
+        # 添加 ChatGPT 回應
+        messages.append({"role": "assistant", "content": ai_msg})
+        print(f'ai > {ai_msg}')
 
 
-# print(reply("介紹台中的草悟道"))
+# print(reply("講個笑話"))
