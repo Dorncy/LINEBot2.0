@@ -25,7 +25,7 @@ def assess(usertext):
     elif re.search(need_help, usertext):
         return get_help()
     elif re.search(travel, usertext):
-        return reply_stablemsg(random_view_introduction(search_county(usertext)))
+        return random_view_introduction(search_county(usertext))
     else:
         return reply(usertext)
 

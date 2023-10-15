@@ -27,12 +27,12 @@ def reply_stablemsg(msg):
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        max_tokens=64,
+        max_tokens=128,
         temperature=0.5,
         messages=[
-
-            {"role": "assistant", "content": "我會幫你把這些景點資訊簡潔整理，並且以口語化的方式回覆給你。"},
-            {"role": "user", "content":  msg}
+            {"role": "user", "content": "推荐個景點"},
+            {"role": "assistant", "content": msg},
+            {"role": "user", "content": "簡短的介紹這個景點"}
         ]
     )
     remsg = response.choices[0].message.content

@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import random
+from chatGPT import reply_stablemsg
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
@@ -60,7 +61,9 @@ def random_view_introduction(area):
         result = doc.to_dict()
         place += result.get('view')
 
-    return get_view_introducion(place)
+    # get_view_introducion(place)
+
+    return reply_stablemsg(get_view_introducion(place))
 
 
 # print(random_view_introduction('台中'))
