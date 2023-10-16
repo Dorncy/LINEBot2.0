@@ -70,7 +70,7 @@ def get_weather_data(locationName):
         return info
 
     else:
-        return "只能查詢臺灣地區的天氣"
+        return "只能查詢臺灣地區的天氣，你想知道哪個縣市的天氣資訊呢?"
 
 # usertext = input('想要查詢哪裡的天氣：')
 
