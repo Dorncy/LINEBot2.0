@@ -3,7 +3,7 @@ from weather import get_weather_data
 from get_help import get_help
 from search_coutny import search_county
 from firebase_read import random_view_introduction, get_all_view
-from chatGPT import reply, reply_stablemsg, reply_recommed
+from chatGPT import reply, reply_stablemsg, reply_recommed, reply_weather
 
 
 def assess(usertext):
@@ -21,7 +21,7 @@ def assess(usertext):
     # 天氣
     if re.search(weather, usertext):
         # print(get_weather_data(search_county(usertext)))
-        return get_weather_data(search_county(usertext))
+        return reply_weather(get_weather_data(search_county(usertext)))
     # 操作
     elif re.search(need_help, usertext):
         return get_help()

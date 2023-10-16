@@ -64,3 +64,23 @@ def reply_recommed(msg):
     # print(remsg)
 
     return remsg
+
+
+# weather
+def reply_weather(msg):
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        max_tokens=128,
+        temperature=0.5,
+        messages=[
+            {"role": "assistant", "content": msg},
+            {"role": "user", "content": "整理天氣訊息以簡單的口語作為回復。"}
+
+        ]
+    )
+    remsg = response.choices[0].message.content
+
+    # print(remsg)
+
+    return remsg
