@@ -43,3 +43,24 @@ def reply_stablemsg(msg):
     # print(remsg)
 
     return remsg
+
+# recommend
+
+
+def reply_recommed(msg):
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        max_tokens=128,
+        temperature=0.5,
+        messages=[
+            {"role": "assistant", "content": msg},
+            {"role": "user", "content": "從以上景點隨機挑選2個景點做推薦但是不用介紹。"}
+
+        ]
+    )
+    remsg = response.choices[0].message.content
+
+    # print(remsg)
+
+    return remsg
