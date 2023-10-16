@@ -26,7 +26,7 @@ def assess(usertext):
     elif re.search(need_help, usertext):
         return get_help()
     # 景點推薦
-    elif re.search(travel_3, usertext):
+    elif re.search(travel_3, usertext) and re.search(travel_2, usertext):
         return reply_recommed(get_all_view(search_county(usertext)))
     elif re.search(travel_1, usertext) or re.search(travel_2, usertext):
         return reply_stablemsg(random_view_introduction(search_county(usertext)))
