@@ -76,5 +76,5 @@ def random_view_introduction(area):
     return info
 
 
-# print(reply_stablemsg(random_view_introduction('台中')))
+print(reply_stablemsg(random_view_introduction('台中')))
 # print(random_view_introduction('台中'))
