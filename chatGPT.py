@@ -32,9 +32,10 @@ def reply_stablemsg(msg):
         temperature=0.5,
         messages=[
             {"role": "assistant", "content": "我是一個專門介紹台灣各大縣市旅有景點的機器人。"},
-            {"role": "assistant", "content": "我將會推薦你一個你所選地區的景點資料作介紹。"},
-            {"role": "assistant", "content": "這是我推薦的景點資料" + msg},
-            {"role": "user", "content": "用一句話跟我推薦這個景點"}
+            {"role": "assistant",
+                "content": "我將會推薦你一個你所選地區的景點資料作介紹，並且以「我推薦你xxxx，'景點介紹'」為回覆方式"},
+            {"role": "assistant", "content": "這是我隨機挑選的推薦景點資料" + msg},
+            {"role": "user", "content": "回復我你對於景點一句話以內的推薦。"}
         ]
     )
     remsg = response.choices[0].message.content
