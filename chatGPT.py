@@ -33,7 +33,7 @@ def reply_stablemsg(msg):
         messages=[
             {"role": "assistant", "content": "我是一個專門介紹台灣各大縣市旅有景點的機器人。"},
             {"role": "assistant", "content": "我將會推薦你一個你所選地區的景點資料作介紹。"},
-            {"role": "assistant", "content": msg},
+            {"role": "assistant", "content": "這是我推薦的景點資料" + msg},
             {"role": "user", "content": "簡短的用一句話介紹這個景點"}
         ]
     )

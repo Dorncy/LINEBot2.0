@@ -13,18 +13,21 @@ def assess(usertext):
     # 幫助
     need_help = re.compile('help')
     # 旅遊, 介紹景點
-    travel_keyword = ["旅遊", "景點"]
+    travel_1 = re.compile('旅遊')
+    travel_2 = re.compile('景點')
     # introduction_keyword = ['想了解', '介紹']
 
-    for keywords in travel_keyword:
-        travel = re.compile(keywords)
-
+    # 天氣
     if re.search(weather, usertext):
         # print(get_weather_data(search_county(usertext)))
         return get_weather_data(search_county(usertext))
+    # 操作
     elif re.search(need_help, usertext):
         return get_help()
-    elif re.search(travel, usertext):
+    # 景點推薦
+    elif re.search(travel_1, usertext):
+        return reply_stablemsg(random_view_introduction(search_county(usertext)))
+    elif re.search(travel_2, usertext):
         return reply_stablemsg(random_view_introduction(search_county(usertext)))
     else:
         return reply(usertext)
