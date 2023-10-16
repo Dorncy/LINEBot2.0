@@ -34,7 +34,7 @@ def reply_stablemsg(msg):
             {"role": "assistant", "content": "我是一個專門介紹台灣各大縣市旅有景點的機器人。"},
             {"role": "assistant", "content": "我將會推薦你一個你所選地區的景點資料作介紹。"},
             {"role": "assistant", "content": "這是我推薦的景點資料" + msg},
-            {"role": "user", "content": "用一句話介紹這個景點，並將「我推薦你」溶入回復句當中。"}
+            {"role": "user", "content": "用一句話跟我推薦這個景點"}
         ]
     )
     remsg = response.choices[0].message.content
