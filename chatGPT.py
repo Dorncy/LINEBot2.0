@@ -55,7 +55,7 @@ def reply_recommed(msg):
         temperature=0.5,
         messages=[
             {"role": "assistant", "content": msg},
-            {"role": "user", "content": "從以上景點隨機挑選2個景點做推薦，在一句話以內。"}
+            {"role": "user", "content": "從以上景點隨機挑選1個景點做推薦，在一句話以內。"}
 
         ]
     )
