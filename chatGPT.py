@@ -23,6 +23,7 @@ def reply(msg):
 
 # print(reply("講個笑話"))
 
+
 def reply_stablemsg(msg):
 
     response = openai.ChatCompletion.create(
