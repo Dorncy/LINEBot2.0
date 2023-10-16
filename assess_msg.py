@@ -1,3 +1,4 @@
+import time
 import re
 from weather import get_weather_data
 from get_help import get_help
@@ -34,4 +35,10 @@ def assess(usertext):
         return reply(usertext)
 
 
+# start = time.time()
+
 # print(assess(input()))
+
+# end = time.time()
+
+# print(end - start)

@@ -60,11 +60,11 @@ def get_weather_data(locationName):
         # print(max_tem)
 
         info = ""
-        info += "查詢天氣地點: " + location + "\n"
-        info += "天氣內容時間段為:" + "\n" + start_time + "到" + end_time + "\n"
-        info += "天氣狀況: " + weather_state + "\n"
-        info += "降雨機率: " + rain_prob + "%" + "\n"
-        info += "最高溫和最低溫:" + max_tem + "~" + min_tem + "\n"
+        info += "查詢天氣地點: " + location + " "
+        info += "天氣內容時間段為:" + " " + start_time + "到" + end_time + " "
+        info += "天氣狀況: " + weather_state + " "
+        info += "降雨機率: " + rain_prob + "%" + " "
+        info += "最高溫和最低溫:" + max_tem + "~" + min_tem + " "
         info += "體感較" + comfort
 
         return info

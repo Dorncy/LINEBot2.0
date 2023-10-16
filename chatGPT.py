@@ -75,7 +75,7 @@ def reply_weather(msg):
         temperature=0.5,
         messages=[
             {"role": "assistant", "content": msg},
-            {"role": "user", "content": "整理天氣訊息以簡單的口語作為回復。"}
+            {"role": "user", "content": "整理天氣訊息以簡潔的口語作為回復。"}
 
         ]
     )
