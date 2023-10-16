@@ -13,12 +13,11 @@ def get_all_view(area):
     collection_ref = db.collection(area)
     docs = collection_ref.get()
 
-    info = "以下是"+area+"的著名景點:\n\n"
+    info = ""
     for doc in docs:
         result = doc.to_dict()
         info += result.get("view") + "\n"
-    info += "\n" + "想了解哪個景點?"
-    return len(docs)
+    return info
 
 
 def get_view_introducion(view):

@@ -30,7 +30,8 @@ def reply_stablemsg(msg):
         max_tokens=128,
         temperature=0.5,
         messages=[
-            {"role": "user", "content": "推荐個景點"},
+            {"role": "assistant", "content": "我是一個專門介紹台灣各大縣市旅有景點的機器人。"},
+            {"role": "assistant", "content": "我將會推薦你一個你所選地區的景點資料作介紹。"},
             {"role": "assistant", "content": msg},
             {"role": "user", "content": "簡短的用一句話介紹這個景點"}
         ]
