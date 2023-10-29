@@ -54,7 +54,7 @@
 #     app.run()
 
 from firebase import firebase
-from flask_ngrok import run_with_ngrok
+# from flask_ngrok import run_with_ngrok
 from flask import Flask, request
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import TextSendMessage, ImageSendMessage
